@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="./crawling.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script type="module" src="/node_modules/gsap/ScrambleTextPlugin.js"></script>
+    <script type="module" src="/node_modules/gsap/SplitText.js"></script>
+    <script type="module" src="/node_modules/gsap/Draggable.js"></script>
+    <script type="module" src="/node_modules/gsap/InertiaPlugin.js"></script>
+    <script type="module" src="/node_modules/gsap/Physics2DPlugin.js"></script>
+    <script type="module" src="/node_modules/gsap/GSDevTools.js"></script>
+
+    <script>
+        $(document).ready(()=>{/*jquery를 이용한 코드 작성*/
+            /*gsap 이용한 애니메이션*/
+            gsap.from($("#title-layout"),{
+                duration: 4,
+                opacity:0
+            });
+
+            /*gsap 이용한 애니메이션*/
+            var tl = gsap.timeline({defaults: {duration: 1, ease: "none"}});
+            tl.to($("#tt1"),{
+                scrambleText:{
+                    text:"CRAWLING",
+                    chars:"lowerCase",
+                    tweenLength:false}
+            });
+            tl.to($("#tt2"),{
+                scrambleText:{
+                    text:"SERVICE",
+                    chars:"lowerCase",
+                    tweenLength:false}
+            });
+            tl.to($("#tt2"),{
+                duration: 0.5,
+                border:"3px solid green"
+            });
+            tl.to($("#board-layout"),{
+                delay:0.5,
+                duration: 2,
+                opacity:1
+            });
+            tl.to($("#crawling"),{
+                duration: 1,
+                opacity:1,
+                display:"block"
+            });
+            Draggable.create($("#title-layout"), {
+                bounds: "body",
+                type:"x",
+                inertia:true
+            });
+
+            var tl2 = gsap.timeline({defaults: {duration: 0.5, ease: "none"}});
+
+            tl2.to($(".modal-item"), {
+                duration:0.5,
+                repeat:-1,
+                rotation:360,
+                stagger: 0.2
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- 제목 영역 -->
+    <div id="title-layout">
+        <div class="title-text" id="tt1"></div>
+        <div class="title-box"><span class="title-text" id="tt2"></div>
+    </div>
+
+    <!-- 게시판 영역 -->
+    <div id="board-layout">
+        <div id="board-container">
+            <div id="crawling"><a href="javascript:collectNaverNews()">네이버 뉴스속보</a></div>
+        </div>
+    </div>
+    
+    <!-- bootstrap의 modal 사용 -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-container">
+            <div class="modal-item">L</div>
+            <div class="modal-item">O</div>
+            <div class="modal-item">A</div>
+            <div class="modal-item">D</div>
+            <div class="modal-item">I</div>
+            <div class="modal-item">N</div>
+            <div class="modal-item">G</div>
+        </div>
+    </div>
+    <script>
+        /*jquery를 이용한 코드 작성*/
+        collectNaverNews=()=>{
+            $("#myModal").css("display","block");
+            $("#myModal").addClass("show");
+            $("#myModal").attr("data-backdrop","static");
+            fetch("http://127.0.0.1:8989/naver")
+            .then(response=>response.json())
+            .then(data=>{
+                setTimeout(()=>{
+                    data.forEach((item)=>{
+                        const card=document.createElement('div')
+                        card.setAttribute('class',"image-card");
+                        card.style.backgroundImage=`url(${item['imageUrl']})`;
+                        card.style.backgroundSize="100% 100%";
+
+                        const title=document.createElement('div')
+                        title.setAttribute('class',"description-title");
+                        title.innerText=item['title'];
+
+                        const summary=document.createElement('div')
+                        summary.setAttribute('class',"description-detail");
+                        summary.innerText=item['summary'];
+
+                        card.setAttribute('ondblclick','window.open("'+item['link']+'")');
+                        const marker=document.createElement('div')
+                        marker.setAttribute('class',"image-marker");
+                        card.append(title);
+                        card.append(summary);
+                        card.append(marker);
+                       $("#board-container").append(card);
+                    });
+                    
+                    /*크롤링 끝*/
+                    $("#crawling").css("display","none");
+                    $("#myModal").css("display","none");
+                    $("#myModal").attr("class", "modal fade");
+
+                    /*사진 Tack 색깔 랜덤 지정*/
+                    gsap.set($(".image-marker"),{
+                        backgroundColor: "random([red,orange,yellow,green,blue,#000080,purple])"
+                    });
+
+
+                    gsap.set($(".image-card"),{
+                        borderColor: "random([red,orange,yellow,green,blue,#000080,purple,black,white])"
+                    });
+
+                    /*카트 형식 애니메이션 생성*/
+                    var tl1 = gsap.timeline({defaults: {duration: 0.5, ease: "none"}});
+                    tl1.to($(".image-card"), {
+                        scale: 1,
+                        stagger: 0.2,
+                        opacity:1
+                    });
+                    tl1.to($(".image-card"), {
+                        stagger: 0.2,
+                        physics2D: {
+                            velocity:"random(350, 500)",
+                            angle:"random(0, 360)",
+                            bounds:"#board-container"
+                        }
+                    });
+                    Draggable.create($(".image-card"), {
+                        bounds: "#board-container",
+                        inertia: true
+                    });
+                },2000);
+            });
+        }
+
+        /*CSS를 이용한 애니메이션*/
+        $(document).on('click', '.image-card', function(e){
+            e.preventDefault();
+            $(this).children().css('display', 'block');
+            setTimeout(()=>{
+                $(this).children(".description-title").css('display', 'none');
+                $(this).children(".description-detail").css('display', 'none');
+            },5000);
+        });
+    </script>
+    </body>
+</html>

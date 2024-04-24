@@ -1,0 +1,271 @@
+body{
+    background-color: black;
+}
+
+.dot {
+    position: absolute;
+    background-color: #91e600;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    will-change: transform;
+}
+
+/***************** 제목 레이아웃 *****************/
+#title-layout{
+    position: absolute;
+    top:10px;
+    left:20px;
+    width: 550px;
+    height: 120px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    user-select: none;
+}
+
+.title-text{
+    position: relative;
+    text-align: center;
+    width: 70%;
+    height: 100%;
+    font-size: 70px;
+    font-weight: 500;
+    text-overflow: clip;
+    text-shadow: 0px 0px 50px rgba(255, 255, 255, 0.458);
+}
+
+.title-box{
+    height: 50px;
+    position: relative;
+}
+
+
+
+#tt1{
+    color:#FFFCE1;
+}
+
+#tt2{
+    width: 150px;
+    border-radius: 20px;
+    padding: 0px 15px;
+    font-size: 30px;
+    color:#FFFCE1;
+    border:3px solid rgba(0, 128, 0, 0);
+}
+  
+
+#title-desciption-layout{
+    position: absolute;
+    width: 800px;
+    height: 500px;
+    bottom:0; top:0; left:0; right: 0;
+    margin:auto;
+    color:#FFFCE1;
+    font-weight: 600;
+    font-size: 50px;
+    border:4px solid blue;
+    display: flex;
+}
+
+#title-desciption{
+    position: relative;
+    border: 3px solid red;
+    text-align: center;
+    top:0; bottom:0; left:0; right: 0;
+    margin: auto;
+
+}
+
+
+/***************** 게시판 레이아웃 *****************/
+#board-layout{
+    position: absolute;
+    bottom:0; top:0; left:0; right: 0;
+    margin: auto;
+    width: 1300px;
+    height: 700px;
+    background-image: url(board.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    box-shadow: 0px 0px 150px 5px rgba(255, 255, 255, 0.242);
+    opacity:0;
+}
+
+#board-container{
+    position: absolute;
+    bottom:0; top:0; left:0; right: 0;
+    margin: auto;
+    width: calc(100% - 33px);
+    height: calc(100% - 32px);
+}
+
+
+
+/***************** 크롤링 버튼 디자인 *****************/
+#crawling{
+    position: absolute;
+    left:0; right: 0;
+    margin: auto;
+    margin-top: 160px;
+    border: 5px solid #FFFCE1;
+    box-shadow: 5px 5px 10px 2px black;
+    border-radius: 50px;
+    width: 500px;
+    height: 100px;
+    opacity: 0;
+    display: none;
+}
+
+
+/***************** 크롤링으로 가져온 데이터를 디자인 *****************/
+.image-card{
+    width: 250px;
+    height: 150px;
+    box-shadow: 5px 5px 10px 7px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    scale: 2;
+    right: 0; left: 0; bottom: 0; top:0;
+    margin:auto;
+    opacity: 0;
+    border:3px solid red;
+}
+
+.description-title{
+    position: absolute;
+    color:green;
+    right: -270px;
+    top:20px;
+    width: 250px;
+    height: 30px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
+    display: none;
+    font-weight: bolder;
+    opacity: 0;
+    animation:fadeAnimation 5s linear 1;
+    animation-fill-mode: both;
+}
+
+.description-detail{
+    position: absolute;
+    color:#FFFCE1;
+    right: -270px;
+    top:50px;
+    width: 250px;
+    height: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-all;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient:vertical;
+    font-size:13px;
+    display: none;
+    opacity: 0;
+    animation:fadeAnimation 5s linear 1;
+    animation-fill-mode: both;
+}
+
+.image-marker{
+    margin: auto;
+    background-color: rgb(0, 58, 13);
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.9);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    border:2px dotted rgba(0, 0, 0, 0.863);
+}
+
+
+
+
+/***************** GSAP 라이브러리 대신 KEYFRAME 쿼리 사용 *****************/
+@keyframes fadeAnimation{
+    16%{
+        opacity: 1;
+    }
+    90%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+
+
+/***************** 부트스트랩의 MODAL 부분 디자인 *****************/
+.modal-container{
+    position: absolute;
+    top:0; left:0; bottom: 0; right: 0;
+    margin: auto;
+    width: 700px;
+    height: 100px;
+    border-radius: 20px;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    gap:10px;
+    user-select: none;
+}
+
+.modal-item{
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    border: 4px solid #FFFCE1;
+    border-radius: 20px;
+    font-size: 70px;
+    font-weight: 900;
+    line-height: 65px;
+    color:#FFFCE1;
+    background-color: black;
+    box-shadow: 5px 5px 10px 2px black;
+}
+
+/*nth child 연습*/
+.modal-item:nth-child(1){
+    color:red;
+}
+.modal-item:nth-child(2){
+    color:orange;
+}
+.modal-item:nth-child(3){
+    color:yellow;
+}
+.modal-item:nth-child(4){
+    color:green;
+}
+.modal-item:nth-child(5){
+    color:blue;
+}
+.modal-item:nth-child(6){
+    color:#000080;
+}
+.modal-item:nth-child(7){
+    color:purple;
+}
+
+
+a{
+    user-select: none;
+    margin-left: 60px;
+    text-decoration: none;
+    color:#FFFCE1;
+    font-size: 50px;
+    line-height: 90px;
+    text-shadow: 5px 5px 5px black;
+}
+
+a:hover{
+    user-select: none;
+    color:#FFFCE1;
+    text-decoration: underline;
+}
+
+
+
